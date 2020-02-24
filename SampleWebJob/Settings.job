@@ -1,4 +1,10 @@
 {
-  //Runs at 9:30 AM every day
-  "schedule": "0 30 9 * * *"
+  //Runs at 9:30 AM every day, applicable for Triggered job alone
+  //"schedule": "0 30 9 * * *",
+  //To set the Web App only runs a single instance of your WebJob, applicable for Continuous job alone
+  "is_singleton": true
+  //Allows the job to run in place without being first copied to a temp folder. To learn more, see WebJobs working directory. applicable for all jobs
+  //"is_in_place":  true,
+  //Allows control of the shutdown behavior. applicable for all jobs
+  //stopping_wait_time:
 }

@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SampleWebJob.DI.Services;
+using SampleWebJob.DI.WebJobConfiguration;
 using Serilog;
 using System;
 using System.IO;
@@ -14,6 +16,14 @@ namespace SampleWebJob
     {
         static async Task Main(string[] args)
         {
+            //var config = new ConfigurationBuilder()
+            //.SetBasePath(Directory.GetCurrentDirectory())
+            //.AddEnvironmentVariables(prefix: "ASPNETCORE_")
+            //.AddJsonFile($"appsettings.json", true)
+            ////.AddJsonFile($"appsettings.{hostContext.HostingEnvironment.EnvironmentName}.json", true)
+            //.AddCommandLine(args)
+            //.Build();
+
             IHost host = new HostBuilder()
              .ConfigureHostConfiguration(configHost =>
              {
@@ -31,8 +41,13 @@ namespace SampleWebJob
              })
             .ConfigureServices((hostContext, services) =>
             {
+ 
                 services.AddLogging();
                 services.AddHostedService<ApplicationHostService>();
+                services.AddScoped<ITestService, TestService>();
+                //services.Configure<WebJobConfiguration>(hostContext.Configuration.GetSection("WebJobConfiguration"));
+                //services.AddSingleton<IWebJobConfiguration>(hostContext.Configuration.GetSection(nameof(WebJobConfiguration)).Get<WebJobConfiguration>());
+
             })
             .ConfigureLogging((hostContext, configLogging) =>
             {
